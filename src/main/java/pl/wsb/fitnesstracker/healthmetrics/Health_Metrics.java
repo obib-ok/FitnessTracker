@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(name = "users")
+@Table(name = "health_metrics")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
