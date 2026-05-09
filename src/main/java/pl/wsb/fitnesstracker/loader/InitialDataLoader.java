@@ -3,6 +3,8 @@ package pl.wsb.fitnesstracker.loader;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -12,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.wsb.fitnesstracker.training.api.Training;
 import pl.wsb.fitnesstracker.training.internal.ActivityType;
 import pl.wsb.fitnesstracker.user.api.User;
+import pl.wsb.fitnesstracker.user.internal.UserRepository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,7 +35,10 @@ import static java.util.Objects.isNull;
 @RequiredArgsConstructor
 class InitialDataLoader {
 
+    private static final Logger log = LoggerFactory.getLogger(InitialDataLoader.class);
     private final JpaRepository<User, Long> userRepository;
+
+    private final UserRepository userRepositoryInterface;
 
     private final JpaRepository<Training, Long> trainingRepository;
 
@@ -73,6 +79,8 @@ class InitialDataLoader {
         users.add(generateUser("Grace", "Anderson", 33));
         users.add(generateUser("Oliver", "Swift", 29));
 
+        long countUsers = userRepositoryInterface.countUsers();
+        log.info(countUsers + " has been added during init proces of my App");
         return users;
     }
 
